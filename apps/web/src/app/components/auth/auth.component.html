@@ -1,1 +1,36 @@
-<p>auth works!</p>
+<div class="auth-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <div class="auth-content" fxLayout="column" fxLayoutAlign="center center">
+    <div class="form-container">
+      <h1>Sign In</h1>
+
+      <form class="signin-form">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            [formControl]="email"
+            placeholder="Ex. jsmith@zendesk.com"
+          />
+          <mat-error
+            *ngIf="email.hasError('email') && !email.hasError('required')"
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="email.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput [formControl]="password" />
+          <mat-error *ngIf="password.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <button mat-button (click)="submit()">Sign In</button>
+    </div>
+  </div>
+</div>
