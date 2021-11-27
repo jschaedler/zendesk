@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from '@zendesk/api-interfaces';
+import { Ticket } from '@zendesk/types';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  getData(): Message {
-    return { message: 'Welcome to api!' };
+  getTickets(): Observable<Ticket[]> {
+    return of([]);
   }
 }
