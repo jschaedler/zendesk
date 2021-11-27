@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@zendesk/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@zendesk/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
