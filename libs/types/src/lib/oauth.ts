@@ -1,17 +1,15 @@
 export interface AccessToken {
-  token: {
-    url: string;
-    id: number;
-    user_id: number;
-    client_id: number;
-    token: number;
-    refresh_token: string | null;
-    created_at: string;
-    expires_at: string | null;
-    used_at: string | null;
-    scopes: Array<'read' | 'write'>;
-    full_token: string;
-  };
+  url: string;
+  id: number;
+  user_id: number;
+  client_id: number;
+  token: number;
+  refresh_token: string | null;
+  created_at: string;
+  expires_at: string | null;
+  used_at: string | null;
+  scopes: Array<'read' | 'write'>;
+  full_token: string;
 }
 
 export interface Client {
@@ -29,3 +27,10 @@ export interface Client {
   global: boolean;
   logo_url: string | null;
 }
+
+export interface OAuthResponse {
+  token: AccessToken;
+  client: Client;
+}
+
+export type OAuthUser = OAuthResponse | undefined;

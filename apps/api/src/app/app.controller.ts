@@ -5,10 +5,11 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  Post,
 } from '@nestjs/common';
 
-import { AccessToken, TicketResponse } from '@zendesk/types';
-import { mergeMap, Observable } from 'rxjs';
+import { OAuthResponse, TicketResponse } from '@zendesk/types';
+import { mergeMap, Observable, map } from 'rxjs';
 
 import { OAuthService } from './oauth.service';
 import { TicketService } from './ticket.service';
@@ -20,8 +21,8 @@ export class AppController {
     private readonly tickets: TicketService
   ) {}
 
-  @Get('oauth')
-  getClients(@Request() req): Observable<AccessToken> {
+  @Post('oauth')
+  getClients(@Request() req): Observable<OAuthResponse> {
     if (!req?.body?.email || !req?.body?.password) {
       throw new HttpException(
         {
@@ -44,7 +45,15 @@ export class AppController {
             HttpStatus.BAD_REQUEST
           );
         }
-        return this.oauth.createAccessToken(email, password, clients[0].id);
+
+        // Use the first client for simplicity
+        const client = clients[0];
+
+        return this.oauth.createAccessToken(email, password, client.id).pipe(
+          map((token) => {
+            return { token, client };
+          })
+        );
       })
     );
   }
