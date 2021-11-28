@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 
-import { AccessToken, Client } from '@zendesk/types';
+import { AccessToken, Client, OAuthResponse } from '@zendesk/types';
 import { catchError, map, Observable, tap } from 'rxjs';
 
 import { environment as env } from '../environments/environment';
@@ -35,9 +35,8 @@ export class OAuthService {
             );
           }
 
-          return res.data.clients;
-        }),
-        tap(console.log)
+          return res.data.clients as Client[];
+        })
       );
   }
 
@@ -66,9 +65,8 @@ export class OAuthService {
       )
       .pipe(
         map((res) => {
-          return res.data as AccessToken;
-        }),
-        tap(console.log)
+          return res.data.token as AccessToken;
+        })
       );
   }
 }
