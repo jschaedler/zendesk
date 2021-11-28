@@ -19,6 +19,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthComponent } from './components/auth/auth.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 
+// Guards
+import { AuthGuard } from './guards/auth.guard';
+
 @NgModule({
   declarations: [AppComponent, TicketsComponent, AuthComponent],
   imports: [
@@ -29,7 +32,7 @@ import { TicketsComponent } from './components/tickets/tickets.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'auth', component: AuthComponent, pathMatch: 'full' },
-      { path: 'tickets', component: TicketsComponent, pathMatch: 'full' },
+      { path: 'tickets', component: TicketsComponent, pathMatch: 'full', canActivate: [AuthGuard] },
       { path: '**', redirectTo: 'tickets' },
     ]),
     MatButtonModule,

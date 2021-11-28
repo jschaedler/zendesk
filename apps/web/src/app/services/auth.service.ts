@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OAuthUser } from '@zendesk/types';
 import { BehaviorSubject, tap, Observable, mergeMap } from 'rxjs';
@@ -15,9 +16,10 @@ export class AuthService {
   private user = new BehaviorSubject<OAuthUser>(undefined);
   public user$: Observable<OAuthUser> = this.user.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const signedInUser = this.retrieve();
     this.user.next(signedInUser);
+    if (signedInUser) this.router.navigate(['/tickets']);
   }
 
   get token(): string | undefined {
@@ -34,6 +36,7 @@ export class AuthService {
       .pipe(
         tap((user) => this.store(user)),
         tap((user) => this.user.next(user)),
+        tap(() => this.router.navigate(['/tickets'])),
         mergeMap(() => this.user$)
       );
   }
@@ -41,6 +44,7 @@ export class AuthService {
   signOut() {
     this.user.next(undefined);
     localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/auth']);
   }
 
   private store(user: OAuthUser) {
