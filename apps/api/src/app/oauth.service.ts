@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 
-import { AccessToken, Client, OAuthResponse } from '@zendesk/types';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { AccessToken, Client } from '@zendesk/types';
+import { catchError, map, Observable } from 'rxjs';
 
 import { environment as env } from '../environments/environment';
 
