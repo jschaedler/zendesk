@@ -11,8 +11,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Components
@@ -32,13 +34,20 @@ import { AuthGuard } from './guards/auth.guard';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'auth', component: AuthComponent, pathMatch: 'full' },
-      { path: 'tickets', component: TicketsComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      {
+        path: 'tickets',
+        component: TicketsComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard],
+      },
       { path: '**', redirectTo: 'tickets' },
     ]),
     MatButtonModule,
+    MatChipsModule,
     MatInputModule,
-    MatPaginatorModule,
     MatTableModule,
+    MatToolbarModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
