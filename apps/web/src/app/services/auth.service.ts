@@ -3,7 +3,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OAuthUser } from '@zendesk/types';
-import { BehaviorSubject, tap, Observable, mergeMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  tap,
+  Observable,
+  mergeMap,
+  of,
+  catchError,
+} from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
@@ -31,14 +38,22 @@ export class AuthService {
   }
 
   signIn(email: string, password: string): Observable<OAuthUser> {
-    return this.http
-      .post<OAuthUser>(`${environment.api}/oauth`, { email, password })
-      .pipe(
-        tap((user) => this.store(user)),
-        tap((user) => this.user.next(user)),
-        tap(() => this.router.navigate(['/tickets'])),
-        mergeMap(() => this.user$)
-      );
+    try {
+      return this.http
+        .post<OAuthUser>(`${environment.api}/oauth`, { email, password })
+        .pipe(
+          catchError((err) => {
+            alert('Could not connect to server, unable to sign in');
+            throw Error(err);
+          }),
+          tap((user) => this.store(user)),
+          tap((user) => this.user.next(user)),
+          tap(() => this.router.navigate(['/tickets'])),
+          mergeMap(() => this.user$)
+        );
+    } catch (error) {
+      return of(undefined);
+    }
   }
 
   signOut() {
@@ -54,6 +69,11 @@ export class AuthService {
   private retrieve(): OAuthUser | undefined {
     const storedToken: string | null = localStorage.getItem(this.tokenKey);
     if (!storedToken) return undefined;
-    return JSON.parse(storedToken) as OAuthUser;
+    try {
+      return JSON.parse(storedToken) as OAuthUser;
+    } catch (error) {
+      localStorage.removeItem(this.tokenKey);
+      return undefined;
+    }
   }
 }
