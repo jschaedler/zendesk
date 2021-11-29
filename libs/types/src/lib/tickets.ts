@@ -12,16 +12,3 @@ export interface Ticket {
 
   // Some fields have been intentionally left out
 }
-
-export interface TicketResponse {
-  tickets: Array<Ticket>;
-  meta: {
-    has_more: boolean;
-    after_cursor: string;
-    before_cursor: string;
-  };
-  links: {
-    next: string;
-    prev: string;
-  };
-}

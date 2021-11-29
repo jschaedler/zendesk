@@ -4,11 +4,10 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Query,
   Post,
 } from '@nestjs/common';
 
-import { OAuthResponse, TicketResponse } from '@zendesk/types';
+import { OAuthResponse, Ticket } from '@zendesk/types';
 import { mergeMap, Observable, map } from 'rxjs';
 
 import { OAuthService } from './oauth.service';
@@ -59,13 +58,8 @@ export class AppController {
   }
 
   @Get('tickets')
-  getTickets(
-    @Request() req,
-    @Query('page_size') size: number,
-    @Query('before') before: string,
-    @Query('after') after: string
-  ): Observable<TicketResponse> {
-    if (!req?.headers?.authorization || size === undefined) {
+  getTickets(@Request() req): Observable<Ticket[]> {
+    if (!req?.headers?.authorization) {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
@@ -75,11 +69,6 @@ export class AppController {
       );
     }
 
-    return this.tickets.listTickets(
-      req.headers.authorization,
-      size,
-      before,
-      after
-    );
+    return this.tickets.listTickets(req.headers.authorization);
   }
 }
