@@ -34,8 +34,8 @@
 
 `apps/api`
 
-- Handles Zendesk access token generation using OAuth and returns a token to the web app ([auth.service.ts](./apps/api/src/app/auth.service.ts))
-- Acts as a proxy for ticket requests ([tickets.service.ts](./apps/api/src/app/tickets.service.ts))
+- Handles Zendesk access token generation using OAuth and returns a token to the web app ([auth.service.ts](./apps/api/src/app/oauth.service.ts))
+- Acts as a proxy for ticket requests ([tickets.service.ts](./apps/api/src/app/ticket.service.ts))
 
 ### Angular App
 
