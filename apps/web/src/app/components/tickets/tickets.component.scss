@@ -32,6 +32,7 @@ tr.detail-row {
 
 tr.ticket-row:not(.expanded-row):hover {
   background: whitesmoke;
+  cursor: pointer;
 }
 
 tr.ticket-row:not(.expanded-row):active {
