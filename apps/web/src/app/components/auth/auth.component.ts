@@ -34,8 +34,6 @@ export class AuthComponent implements OnInit {
   }
 
   signIn() {
-    this.auth
-      .signIn(this.email.value, this.password.value)
-      .subscribe(console.log);
+    this.auth.signIn(this.email.value, this.password.value);
   }
 }
