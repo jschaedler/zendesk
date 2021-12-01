@@ -5,18 +5,6 @@ import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
-export enum CursorType {
-  None,
-  Before,
-  After,
-}
-
-export interface TicketCursor {
-  size: number;
-  value?: string;
-  type?: CursorType;
-}
-
 @Injectable({
   providedIn: 'root',
 })
